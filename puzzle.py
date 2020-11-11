@@ -5,8 +5,8 @@ class Puzzle():
     def __init__(self, configuration, row_length, column_length): # Might include initial state + goal states or might remove them all together
         self.initial_state = configuration
         self.current_state = self.initial_state # might change
-        self.goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]
-        self.goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]
+        self.goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0] # [1, 2, 3, 0]  # [1, 2, 3, 4, 5, 6, 7, 0]
+        self.goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0] # [1, 2, 3, 0]  # [1, 3, 5, 7, 2, 4, 6, 0]
         self.row_length = row_length
         self.column_length = column_length
         self.g = 0 # Cost from root to node
@@ -48,6 +48,7 @@ class Puzzle():
         left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, left_tile_index)
         self.g += 1
+        return self
         
     def move_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -58,6 +59,7 @@ class Puzzle():
         right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, right_tile_index)
         self.g += 1
+        return self
         
     def move_down(self):
         empty_tile_index = self.locate_empty_tile()
@@ -68,6 +70,7 @@ class Puzzle():
         lower_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_tile_index)
         self.g += 1
+        return self
         
     def move_up(self):
         empty_tile_index = self.locate_empty_tile()
@@ -78,6 +81,7 @@ class Puzzle():
         upper_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_tile_index)
         self.g += 1
+        return self
         
     def wrap_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -238,15 +242,15 @@ class Puzzle():
         self.h = min(temp_1, temp_2)
 
 
-puz = Puzzle()      
-print(puz.current_state)
-# print(puz.h)
-# puz.apply_heuristic_2()
-# print(puz.h)
-for x in range(0, puz.row_length):
-    print(x)
-# for x in range(9-3, 9, ):
+# puz = Puzzle()      
+# print(puz.current_state)
+# # print(puz.h)
+# # puz.apply_heuristic_2()
+# # print(puz.h)
+# for x in range(0, puz.row_length):
 #     print(x)
+# # for x in range(9-3, 9, ):
+# #     print(x)
 
 
 # puz.wrap_diag_down_right()
