@@ -1,15 +1,15 @@
 
-class Puzzle_Node():
+class Puzzle():
     """A class to represent a puzzle node."""
     
-    def __init__(self):
-        self.initial_state = [1, 7, 3, 4, 5, 6, 2, 0]
-        self.current_state = self.initial_state 
+    def __init__(self, configuration, row_length, column_length): # Might include initial state + goal states or might remove them all together
+        self.initial_state = configuration
+        self.current_state = self.initial_state # might change
         self.goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]
         self.goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]
-        self.row_length = 4
-        self.column_length = 2
-        self.cost = 0
+        self.row_length = row_length
+        self.column_length = column_length
+        self.g = 0 # Cost from root to node
         self.h = 0
     
     # def is_swappable(index_of_tile_number):
@@ -18,14 +18,22 @@ class Puzzle_Node():
     #     if self.current_state[index_of_tile_number-1] != 0 and self.current_state[index_of_tile_number+1]:
     #         return False
     #     return True
-       
+    
+    def get_g(self):
+        """Returns the cost from root to current node."""
+        return self.g
+    
+    def get_configuration(self):
+        """Returns the current configuration of the puzzle."""
+        return self.current_state
+    
+    def is_goal(self):
+        """Determines if current node is the goal or not."""
+        return (self.current_state == self.goal_state_1) or (self.current_state == self.goal_state_2)
     
     def locate_empty_tile(self):
         return self.current_state.index(0)
-    
-    # def is_tile_in_corner(self, empty_tile_index):
         
-    
     def swap_tiles(self, empty_tile_index, tile_index):
         tile_number = self.current_state[tile_index]
         self.current_state[tile_index] = self.current_state[empty_tile_index]
@@ -39,7 +47,7 @@ class Puzzle_Node():
         distance = 1
         left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, left_tile_index)
-        self.cost += 1
+        self.g += 1
         
     def move_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -49,7 +57,7 @@ class Puzzle_Node():
         distance = 1
         right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, right_tile_index)
-        self.cost += 1
+        self.g += 1
         
     def move_down(self):
         empty_tile_index = self.locate_empty_tile()
@@ -59,7 +67,7 @@ class Puzzle_Node():
         distance = self.row_length
         lower_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_tile_index)
-        self.cost += 1
+        self.g += 1
         
     def move_up(self):
         empty_tile_index = self.locate_empty_tile()
@@ -69,7 +77,7 @@ class Puzzle_Node():
         distance = self.row_length
         upper_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_tile_index)
-        self.cost += 1
+        self.g += 1
         
     def wrap_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -79,7 +87,7 @@ class Puzzle_Node():
         distance = self.row_length - 1
         right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, right_tile_index)
-        self.cost += 2
+        self.g += 2
         
     def wrap_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -89,7 +97,7 @@ class Puzzle_Node():
         distance = self.row_length - 1
         left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, left_tile_index)
-        self.cost += 2
+        self.g += 2
     
     def wrap_down(self):
         empty_tile_index = self.locate_empty_tile()
@@ -99,7 +107,7 @@ class Puzzle_Node():
         distance = self.row_length * (self.column_length - 1)
         upper_tile_index = empty_tile_index - distance 
         self.swap_tiles(empty_tile_index, upper_tile_index)
-        self.cost += 2
+        self.g += 2
         
     def wrap_up(self):
         empty_tile_index = self.locate_empty_tile()
@@ -109,7 +117,7 @@ class Puzzle_Node():
         distance = self.row_length * (self.column_length - 1)
         lower_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_tile_index)
-        self.cost += 2
+        self.g += 2
     
     def move_diag_down_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -119,7 +127,7 @@ class Puzzle_Node():
         distance = self.row_length - 1
         lower_left_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_left_tile_index)
-        self.cost += 3
+        self.g += 3
         
     def move_diag_down_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -129,7 +137,7 @@ class Puzzle_Node():
         distance = self.row_length + 1
         lower_right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_right_tile_index)
-        self.cost += 3
+        self.g += 3
     
     def move_diag_up_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -139,7 +147,7 @@ class Puzzle_Node():
         distance = self.row_length + 1
         upper_left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_left_tile_index)
-        self.cost += 3
+        self.g += 3
         
     def move_diag_up_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -149,7 +157,7 @@ class Puzzle_Node():
         distance = self.row_length - 1
         upper_right_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_right_tile_index)
-        self.cost += 3
+        self.g += 3
         
     def wrap_diag_down_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -159,7 +167,7 @@ class Puzzle_Node():
         distance = self.row_length * (self.column_length - 2) + 1
         upper_right_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_right_tile_index)
-        self.cost += 3
+        self.g += 3
         
     def wrap_diag_down_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -169,7 +177,7 @@ class Puzzle_Node():
         distance = self.row_length * self.column_length - 1
         upper_left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_left_tile_index)
-        self.cost += 3
+        self.g += 3
     
     def wrap_diag_up_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -179,7 +187,7 @@ class Puzzle_Node():
         distance = self.row_length * self.column_length - 1
         lower_right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_right_tile_index)
-        self.cost += 3
+        self.g += 3
         
     def wrap_diag_up_right(self):
         empty_tile_index = self.locate_empty_tile()
@@ -189,7 +197,7 @@ class Puzzle_Node():
         distance = self.row_length * (self.column_length - 2) + 1
         lower_left_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_left_tile_index)
-        self.cost += 3
+        self.g += 3
     
     # Not 100% sure if that is what they want!
     def apply_heuristic_0(self):
@@ -198,7 +206,6 @@ class Puzzle_Node():
         else:
             self.h = 1
         
-    
     def apply_heuristic_1(self):
         """Using Hamming distance to count number of tiles out of place."""
         temp_1 = 0
@@ -231,7 +238,7 @@ class Puzzle_Node():
         self.h = min(temp_1, temp_2)
 
 
-puz = Puzzle_Node()      
+puz = Puzzle()      
 print(puz.current_state)
 # print(puz.h)
 # puz.apply_heuristic_2()
@@ -246,5 +253,5 @@ for x in range(0, puz.row_length):
 # puz.wrap_left()
 # puz.wrap_diag_up_right()
 # puz.wrap_diag_down_left()
-# print(puz.cost)
+# print(puz.g)
 # print(puz.current_state)
