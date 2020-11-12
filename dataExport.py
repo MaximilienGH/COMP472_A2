@@ -7,7 +7,7 @@ def flatten_list(non_flat_list):
     return flat_list 
 
 def generate_solution_file(solution_file_data, number, algorithm, heuristic):
-    output_file = f"{number}_{algorithm}{heuristic}_solution.txt"
+    output_file = f"Output_Files/{number}_{algorithm}{heuristic}_solution.txt"
     with open(output_file, 'w') as file_object:
         if solution_file_data == None:
             file_object.write("no solution")
@@ -18,7 +18,7 @@ def generate_solution_file(solution_file_data, number, algorithm, heuristic):
                 file_object.write('\n')
         
 def generate_search_file(search_file_data, number, algorithm, heuristic):
-    output_file = f"{number}_{algorithm}{heuristic}_search.txt"
+    output_file = f"Output_Files/{number}_{algorithm}{heuristic}_search.txt"
     with open(output_file, 'w') as file_object:
         if search_file_data == None:
             file_object.write("no solution")
