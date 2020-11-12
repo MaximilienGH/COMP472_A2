@@ -53,8 +53,7 @@ def apply_algorithm(start_node):
         end_time = time.time()
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
-            print("No solution")
-            break
+            return
     solution_file_data.append((total_cost, elapsed_time))
     print(len(open_list))
     print(len(closed_list))

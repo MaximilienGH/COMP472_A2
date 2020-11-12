@@ -1,3 +1,4 @@
+from dataExport import generate_solution_file, generate_search_file
 from puzzle import Puzzle
 import UCS
 
@@ -13,7 +14,10 @@ puzzle = Puzzle([2, 0, 3, 4, 1, 5, 6, 7], 4, 2)
 
 solution_file_data, search_file_data = UCS.apply_algorithm(puzzle)
 
-# for i in solution_file_data:
-#     print(i)
+for i in solution_file_data:
+    print(i)
 for i in search_file_data:
     print(i)
+
+generate_solution_file(solution_file_data, 0, "ucs", "")
+generate_search_file(search_file_data, 0, "ucs", "")
