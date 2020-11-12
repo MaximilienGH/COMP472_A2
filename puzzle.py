@@ -11,13 +11,8 @@ class Puzzle():
         self.column_length = column_length
         self.g = 0 # Cost from root to node
         self.h = 0
-    
-    # def is_swappable(index_of_tile_number):
-        
-    #     # If empty tile is not next to it, can't swap!
-    #     if self.current_state[index_of_tile_number-1] != 0 and self.current_state[index_of_tile_number+1]:
-    #         return False
-    #     return True
+        self.swapped_token = 0
+        self.swap_cost = 0
     
     def get_g(self):
         """Returns the cost from root to current node."""
@@ -27,6 +22,14 @@ class Puzzle():
         """Returns the current configuration of the puzzle."""
         return self.current_state
     
+    def get_swapped_token(self):
+        """Returns the swapped token."""
+        return self.swapped_token
+    
+    def get_swap_cost(self):
+        """Returns the cost of the swap."""
+        return self.swap_cost
+    
     def is_goal(self):
         """Determines if current node is the goal or not."""
         return (self.current_state == self.goal_state_1) or (self.current_state == self.goal_state_2)
@@ -35,9 +38,9 @@ class Puzzle():
         return self.current_state.index(0)
         
     def swap_tiles(self, empty_tile_index, tile_index):
-        tile_number = self.current_state[tile_index]
+        self.swapped_token = self.current_state[tile_index]
         self.current_state[tile_index] = self.current_state[empty_tile_index]
-        self.current_state[empty_tile_index] = tile_number
+        self.current_state[empty_tile_index] = self.swapped_token
     
     def move_left(self):
         empty_tile_index = self.locate_empty_tile()
@@ -47,7 +50,8 @@ class Puzzle():
         distance = 1
         left_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, left_tile_index)
-        self.g += 1
+        self.swap_cost = 1
+        self.g += self.swap_cost
         return self
         
     def move_right(self):
@@ -58,7 +62,8 @@ class Puzzle():
         distance = 1
         right_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, right_tile_index)
-        self.g += 1
+        self.swap_cost = 1
+        self.g += self.swap_cost
         return self
         
     def move_down(self):
@@ -69,7 +74,8 @@ class Puzzle():
         distance = self.row_length
         lower_tile_index = empty_tile_index + distance
         self.swap_tiles(empty_tile_index, lower_tile_index)
-        self.g += 1
+        self.swap_cost = 1
+        self.g += self.swap_cost
         return self
         
     def move_up(self):
@@ -80,7 +86,8 @@ class Puzzle():
         distance = self.row_length
         upper_tile_index = empty_tile_index - distance
         self.swap_tiles(empty_tile_index, upper_tile_index)
-        self.g += 1
+        self.swap_cost = 1
+        self.g += self.swap_cost
         return self
         
     def wrap_left(self):
