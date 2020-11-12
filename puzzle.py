@@ -7,6 +7,7 @@ class Puzzle():
         self.current_state = self.initial_state # might change
         self.goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0] # [1, 2, 3, 0]  # [1, 2, 3, 4, 5, 6, 7, 0]
         self.goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0] # [1, 2, 3, 0]  # [1, 3, 5, 7, 2, 4, 6, 0]
+        self.ancestor_states = []
         self.row_length = row_length
         self.column_length = column_length
         self.g = 0 # Cost from root to node
@@ -39,19 +40,29 @@ class Puzzle():
         """Returns the cost of the swap."""
         return self.swap_cost
     
+    def get_ancestors(self):
+        """Returns list of ancestor puzzle objects for a node."""
+        return self.ancestor_states
+    
+    # def add_ancestor(self, parent_node):
+    #     """Register parent node in order to track back to root node."""
+    #     self.ancestor_states.append(parent_node)
+    
     def is_goal(self):
         """Determines if current node is the goal or not."""
         return (self.current_state == self.goal_state_1) or (self.current_state == self.goal_state_2)
     
     def locate_empty_tile(self):
+        """Determines the index of the empty tile in the puzzle."""
         return self.current_state.index(0)
         
     def swap_tiles(self, empty_tile_index, tile_index):
+        """Swap the index of the empty tile with another one."""
         self.swapped_token = self.current_state[tile_index]
         self.current_state[tile_index] = self.current_state[empty_tile_index]
         self.current_state[empty_tile_index] = self.swapped_token
     
-    def move_left(self):
+    def move_left(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         # If on left edge, can't move left
         if empty_tile_index in range(0, len(self.current_state), self.row_length):
@@ -61,9 +72,10 @@ class Puzzle():
         self.swap_tiles(empty_tile_index, left_tile_index)
         self.swap_cost = 1
         self.g += self.swap_cost
+        self.ancestor_states.append(parent_node)
         return self
         
-    def move_right(self):
+    def move_right(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         # If on right edge, can't move right
         if empty_tile_index in range(self.row_length-1, len(self.current_state), self.row_length):
@@ -73,9 +85,10 @@ class Puzzle():
         self.swap_tiles(empty_tile_index, right_tile_index)
         self.swap_cost = 1
         self.g += self.swap_cost
+        self.ancestor_states.append(parent_node)
         return self
         
-    def move_down(self):
+    def move_down(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         # If on bottom edge, can't move down
         if empty_tile_index in range(len(self.current_state)-self.row_length, len(self.current_state)):
@@ -85,9 +98,10 @@ class Puzzle():
         self.swap_tiles(empty_tile_index, lower_tile_index)
         self.swap_cost = 1
         self.g += self.swap_cost
+        self.ancestor_states.append(parent_node)
         return self
         
-    def move_up(self):
+    def move_up(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         # If on top edge, can't move up
         if empty_tile_index in range(0, self.row_length):
@@ -97,6 +111,7 @@ class Puzzle():
         self.swap_tiles(empty_tile_index, upper_tile_index)
         self.swap_cost = 1
         self.g += self.swap_cost
+        self.ancestor_states.append(parent_node)
         return self
         
     def wrap_left(self):

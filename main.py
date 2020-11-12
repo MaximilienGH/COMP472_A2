@@ -22,6 +22,6 @@ generate_search_file(search_file_data, 0, "ucs", "")
 # for i in search_file_data:
 #     print(i)
 
-solution_file_data, search_file_data = GBFS.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
-generate_solution_file(solution_file_data, 0, "GBFS", "-h1")
-generate_search_file(search_file_data, 0, "GBFS", "-h1")
+# solution_file_data, search_file_data = GBFS.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
+# generate_solution_file(solution_file_data, 0, "GBFS", "-h1")
+# generate_search_file(search_file_data, 0, "GBFS", "-h1")
