@@ -48,6 +48,12 @@ def find_children_nodes(node, heuristic_number):
 def apply_algorithm(start_node, heuristic_number):
     global open_list, closed_list
     start_time = time.time()
+    if heuristic_number == 1:
+        start_node.apply_heuristic_1()
+    elif heuristic_number == 2:
+        start_node.apply_heuristic_2()
+    else:
+        start_node.apply_heuristic_0()
     open_list.append(start_node)
     total_cost = 0
     while(open_list):
@@ -55,8 +61,7 @@ def apply_algorithm(start_node, heuristic_number):
         closed_list.append(current_node)
         solution_file_data.append((current_node.get_swapped_token(),
                                    current_node.get_swap_cost(), current_node.get_configuration()))
-        search_file_data.append((current_node.get_f(), current_node.get_g(),
-                                 current_node.get_h(), current_node.get_configuration()))
+        search_file_data.append((0, 0, current_node.get_h(), current_node.get_configuration()))
         if current_node.is_goal():
             total_cost = current_node.get_g()
             break
@@ -65,7 +70,7 @@ def apply_algorithm(start_node, heuristic_number):
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
             return [], []
-        break
+        # break
     solution_file_data.append((total_cost, elapsed_time))
     print(len(open_list))
     print(len(closed_list))

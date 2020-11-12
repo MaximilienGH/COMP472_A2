@@ -44,8 +44,7 @@ def apply_algorithm(start_node):
         closed_list.append(current_node)
         solution_file_data.append((current_node.get_swapped_token(),
                                    current_node.get_swap_cost(), current_node.get_configuration()))
-        search_file_data.append((current_node.get_f(), current_node.get_g(),
-                                 current_node.get_h(), current_node.get_configuration()))
+        search_file_data.append((0, current_node.get_g(), 0, current_node.get_configuration()))
         if current_node.is_goal():
             total_cost = current_node.get_g()
             break
