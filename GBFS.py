@@ -8,8 +8,17 @@ search_Path = []
 solution_file_data = []
 search_file_data = []
 
-def search_node():
-    return
+# def search_node():
+#     return
+
+def update_solution_file_data(goal_node):
+    global solution_file_data
+    for i in goal_node.get_ancestors():
+        solution_file_data.append((i.get_swapped_token(), i.get_swap_cost(), i.get_configuration()))
+    
+def update_search_file_data(current_node):
+    global search_file_data
+    search_file_data.append((0, 0, current_node.get_h(), current_node.get_configuration()))
 
 def choose_heuristic(heuristic_number):
     if heuristic_number == 1:
@@ -22,11 +31,11 @@ def choose_heuristic(heuristic_number):
     print([i.get_h() for i in open_list])
 
 def find_children_nodes(node, heuristic_number):
-    global open_list, closed_list
-    open_list.append(copy.deepcopy(node).move_left())
-    open_list.append(copy.deepcopy(node).move_right())
-    open_list.append(copy.deepcopy(node).move_down())
-    open_list.append(copy.deepcopy(node).move_up())
+    global open_list
+    open_list.append(copy.deepcopy(node).move_left(copy.deepcopy(node)))
+    open_list.append(copy.deepcopy(node).move_right(copy.deepcopy(node)))
+    open_list.append(copy.deepcopy(node).move_down(copy.deepcopy(node)))
+    open_list.append(copy.deepcopy(node).move_up(copy.deepcopy(node)))
     # open_list.append(copy.deepcopy(node).wrap_left())
     # open_list.append(node.wrap_right())
     # open_list.append(node.wrap_down())
@@ -59,18 +68,18 @@ def apply_algorithm(start_node, heuristic_number):
     while(open_list):
         current_node = open_list.pop(0)
         closed_list.append(current_node)
-        solution_file_data.append((current_node.get_swapped_token(),
-                                   current_node.get_swap_cost(), current_node.get_configuration()))
-        search_file_data.append((0, 0, current_node.get_h(), current_node.get_configuration()))
+        update_search_file_data(current_node)
         if current_node.is_goal():
             total_cost = current_node.get_g()
+            update_solution_file_data(current_node)
             break
         find_children_nodes(current_node, heuristic_number)
         end_time = time.time()
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
             return [], []
-        # break
+    solution_file_data.append((current_node.get_swapped_token(),
+                              current_node.get_swap_cost(), current_node.get_configuration()))
     solution_file_data.append((total_cost, elapsed_time))
     print(len(open_list))
     print(len(closed_list))

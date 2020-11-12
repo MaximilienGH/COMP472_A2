@@ -40,7 +40,6 @@ def find_children_nodes(node):
     # open_list.append(node.wrap_diag_up_right())
     
     open_list = list(filter(None, open_list))
-    # [i.add_ancestor(node) for i in open_list]
     open_list.sort(key=lambda x: x.get_g())
 
 # Must check if state is already in closed list and open list!
@@ -52,8 +51,6 @@ def apply_algorithm(start_node):
     while(open_list):
         current_node = open_list.pop(0)
         closed_list.append(current_node)
-        # solution_file_data.append((current_node.get_swapped_token(),
-        #                            current_node.get_swap_cost(), current_node.get_configuration()))
         update_search_file_data(current_node)
         if current_node.is_goal():
             total_cost = current_node.get_g()
