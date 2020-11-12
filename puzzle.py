@@ -11,12 +11,21 @@ class Puzzle():
         self.column_length = column_length
         self.g = 0 # Cost from root to node
         self.h = 0
+        self.f = 0
         self.swapped_token = 0
         self.swap_cost = 0
     
     def get_g(self):
         """Returns the cost from root to current node."""
         return self.g
+    
+    def get_h(self):
+        """Returns the estimated cost from node to goal node."""
+        return self.h
+    
+    def get_f(self):
+        """Returns the combined cost of g and h."""
+        return self.f
     
     def get_configuration(self):
         """Returns the current configuration of the puzzle."""

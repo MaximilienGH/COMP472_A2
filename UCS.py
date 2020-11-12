@@ -42,22 +42,21 @@ def apply_algorithm(start_node):
     while(open_list):
         current_node = open_list.pop(0)
         closed_list.append(current_node)
-        print(current_node.get_configuration())
+        solution_file_data.append((current_node.get_swapped_token(),
+                                   current_node.get_swap_cost(), current_node.get_configuration()))
+        search_file_data.append((current_node.get_f(), current_node.get_g(),
+                                 current_node.get_h(), current_node.get_configuration()))
         if current_node.is_goal():
             total_cost = current_node.get_g()
             break
-        # current_node_copy = copy.deepcopy(current_node)
         find_children_nodes(current_node)
         end_time = time.time()
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
             print("No solution")
             break
-    
-    print("The total cost is", total_cost)
-    print("Elapsed time is", elapsed_time)
+    solution_file_data.append((total_cost, elapsed_time))
     print(len(open_list))
     print(len(closed_list))
     
     return solution_file_data, search_file_data
-
