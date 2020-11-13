@@ -1,8 +1,8 @@
 """
-File name:     GBFS.py
+File name:     A_Star.py
 Authors:       Maximilien Fathi, Zihan Zhou
 Date:          November 16, 2020
-Description:   Code used for the application of the GBFS algorithm.
+Description:   Code used for the application of the A* algorithm.
 """
 
 import copy
@@ -26,17 +26,25 @@ def update_solution_file_data(goal_node):
 def update_search_file_data(current_node):
     """Fills search_file_data list with data related to the current node."""
     global search_file_data
-    search_file_data.append((0, 0, current_node.get_h(), current_node.get_configuration()))
+    
+    search_file_data.append((current_node.get_f(), current_node.get_g(), 
+                             current_node.get_h(), current_node.get_configuration()))
     # Different from Kevin's stuff
 
 def choose_heuristic(heuristic_number):
     """Applies correct heuristic method based on what was chosen."""
     if heuristic_number == 1:
-        [i.apply_heuristic_1() for i in open_list]
+        for i in open_list:
+            i.apply_heuristic_1() 
+            i.determine_f()
     elif heuristic_number == 2:
-        [i.apply_heuristic_2() for i in open_list]
+        for i in open_list:
+            i.apply_heuristic_2() 
+            i.determine_f()
     else:
-        [i.apply_heuristic_0() for i in open_list]
+        for i in open_list:
+            i.apply_heuristic_0() 
+            i.determine_f()
 
 def find_children_nodes(node, heuristic_number):
     """Appends children nodes to open list then sorts it accordingly."""
@@ -58,10 +66,10 @@ def find_children_nodes(node, heuristic_number):
     open_list.append(copy.deepcopy(node).wrap_diag_up_left(copy.deepcopy(node)))
     open_list.append(copy.deepcopy(node).wrap_diag_up_right(copy.deepcopy(node)))
     
-    # Remove None objects and then sort open list with lowest h first
+    # Remove None objects and then sort open list with lowest f first
     open_list = list(filter(None, open_list))
     choose_heuristic(heuristic_number)
-    open_list.sort(key=lambda x: x.get_h())
+    open_list.sort(key=lambda x: x.get_f())
     # Remove duplicates nodes in open list
     temp_list = []
     temp_configuration = []
@@ -73,15 +81,18 @@ def find_children_nodes(node, heuristic_number):
     # new
 
 def apply_algorithm(start_node, heuristic_number):
-    """Applies the GBFS algorithm given a start node."""
+    """Applies the A* algorithm given a start node."""
     global open_list, closed_list, cL # new
     start_time = time.time()
     if heuristic_number == 1:
         start_node.apply_heuristic_1()
+        start_node.determine_f() # new
     elif heuristic_number == 2:
         start_node.apply_heuristic_2()
+        start_node.determine_f() # new
     else:
         start_node.apply_heuristic_0()
+        start_node.determine_f() # new
     open_list.append(start_node)
     total_cost = 0
     elapsed_time = 0 # new

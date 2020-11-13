@@ -28,7 +28,7 @@ class Puzzle():
         return self.g
     
     def get_h(self):
-        """Returns the estimated cost from node to goal node."""
+        """Returns the estimated lowest cost from node to goal node."""
         return self.h
     
     def get_f(self):
@@ -50,6 +50,10 @@ class Puzzle():
     def get_ancestors(self):
         """Returns list of ancestor puzzle objects for a node."""
         return self.ancestor_states
+    
+    def determine_f(self):
+        """Finds the combined cost of g and h."""
+        self.f = self.g + self.h
     
     def is_goal(self):
         """Determines if current node is the goal or not."""

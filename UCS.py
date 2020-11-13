@@ -20,7 +20,8 @@ def update_solution_file_data(goal_node):
     """Fills solution_file_data list with data related to the ancestors of the goal node."""
     global solution_file_data
     for i in goal_node.get_ancestors():
-        solution_file_data.append((i.get_swapped_token(), i.get_swap_cost(), i.get_configuration()))
+        solution_file_data.append((i.get_swapped_token(), i.get_swap_cost(),
+                                   i.get_configuration()))
     
 def update_search_file_data(current_node):
     """Fills search_file_data list with data related to the current node."""
