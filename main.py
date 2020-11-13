@@ -8,8 +8,12 @@ import GBFS
 #     for line in file_object:
 #         print(line)
 
-puzzle = Puzzle([2, 0, 3, 4, 1, 5, 6, 7], 4, 2)
-# puzzle = Puzzle([1, 2, 3, 4, 0, 5, 6, 7], 4, 2)
+initial_state = [5, 2, 3, 0, 1, 6, 7, 4] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
+goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]  # 2x2 => [1, 2, 3, 0]
+goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]  # 2x2 => [1, 2, 3, 0]
+
+puzzle = Puzzle(initial_state, goal_state_1, goal_state_2, 4, 2)
+# puzzle = Puzzle([4,2,3,1,5,6,7,0,8], 3, 3)
 # puzzle = Puzzle([3, 1, 0, 2], 2, 2)
 # puzzle = Puzzle([0,8,3,7,6,1,5,2,4], 3, 3)
 
