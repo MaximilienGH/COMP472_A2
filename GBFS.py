@@ -10,9 +10,7 @@ import time
 
 """Global variables."""
 open_list = []
-closed_list = []
-cL = [] # new
-search_Path = []
+closed_list = [] # new
 solution_file_data = []
 search_file_data = []
 
@@ -40,7 +38,7 @@ def choose_heuristic(heuristic_number):
 
 def find_children_nodes(node, heuristic_number):
     """Appends children nodes to open list then sorts it accordingly."""
-    global open_list, cL # new
+    global open_list, closed_list # new
     open_list.append(copy.deepcopy(node).move_left(copy.deepcopy(node)))
     open_list.append(copy.deepcopy(node).move_right(copy.deepcopy(node)))
     open_list.append(copy.deepcopy(node).move_down(copy.deepcopy(node)))
@@ -66,7 +64,7 @@ def find_children_nodes(node, heuristic_number):
     temp_list = []
     temp_configuration = []
     for i in range(len(open_list)):
-        if (open_list[i].get_configuration() not in temp_configuration) and (open_list[i].get_configuration() not in cL):
+        if (open_list[i].get_configuration() not in temp_configuration) and (open_list[i].get_configuration() not in closed_list):
             temp_configuration.append(open_list[i].get_configuration())
             temp_list.append(open_list[i])
     open_list = temp_list
@@ -74,7 +72,7 @@ def find_children_nodes(node, heuristic_number):
 
 def apply_algorithm(start_node, heuristic_number):
     """Applies the GBFS algorithm given a start node."""
-    global open_list, closed_list, cL # new
+    global open_list, closed_list # new
     start_time = time.time()
     if heuristic_number == 1:
         start_node.apply_heuristic_1()
@@ -87,8 +85,7 @@ def apply_algorithm(start_node, heuristic_number):
     elapsed_time = 0 # new
     while(open_list):
         current_node = open_list.pop(0)
-        closed_list.append(current_node)
-        cL.append(current_node.get_configuration()) # new
+        closed_list.append(current_node.get_configuration()) # new
         update_search_file_data(current_node)
         if current_node.is_goal():
             total_cost = current_node.get_g()
