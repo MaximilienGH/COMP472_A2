@@ -5,7 +5,7 @@ Date:          November 16, 2020
 Description:   Code used for the application of the UCS algorithm.
 """
 
-import copy
+from copy import deepcopy
 import time
 
 """Global variables."""
@@ -32,22 +32,22 @@ def update_search_file_data(current_node):
 def find_children_nodes(node):
     """Appends children nodes to open list then sorts it accordingly."""
     global open_list, closed_list  # new
-    open_list.append(copy.deepcopy(node).move_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_right(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_down(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_up(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_right(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_down(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_up(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_diag_down_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_diag_down_right(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_diag_up_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).move_diag_up_right(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_diag_down_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_diag_down_right(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_diag_up_left(copy.deepcopy(node)))
-    open_list.append(copy.deepcopy(node).wrap_diag_up_right(copy.deepcopy(node)))
+    open_list.append(deepcopy(node).move_left(deepcopy(node)))
+    open_list.append(deepcopy(node).move_right(deepcopy(node)))
+    open_list.append(deepcopy(node).move_down(deepcopy(node)))
+    open_list.append(deepcopy(node).move_up(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_left(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_right(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_down(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_up(deepcopy(node)))
+    open_list.append(deepcopy(node).move_diag_down_left(deepcopy(node)))
+    open_list.append(deepcopy(node).move_diag_down_right(deepcopy(node)))
+    open_list.append(deepcopy(node).move_diag_up_left(deepcopy(node)))
+    open_list.append(deepcopy(node).move_diag_up_right(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_diag_down_left(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_diag_down_right(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_diag_up_left(deepcopy(node)))
+    open_list.append(deepcopy(node).wrap_diag_up_right(deepcopy(node)))
 
     # Remove None objects and then sort open list with lowest g first
     open_list = list(filter(None, open_list))
