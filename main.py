@@ -5,7 +5,7 @@ Date:          November 16, 2020
 Description:   Driver file used to run the whole program.
 """
 
-from data_Export import generate_solution_file, generate_search_file
+from data_Export import generate_random_puzzles_file, generate_solution_file, generate_search_file
 from puzzle import Puzzle
 import UCS
 import GBFS
@@ -27,17 +27,20 @@ def main():
     # puzzle = Puzzle([3, 1, 0, 2], 2, 2)
     # puzzle = Puzzle([0,8,3,7,6,1,5,2,4], 3, 3)
     
-    solution_file_data, search_file_data = UCS.apply_algorithm(puzzle)
-    generate_solution_file(solution_file_data, 0, "ucs", "")
-    generate_search_file(search_file_data, 0, "ucs", "")
+    # solution_file_data, search_file_data = UCS.apply_algorithm(puzzle)
+    # generate_solution_file(solution_file_data, 0, "ucs", "")
+    # generate_search_file(search_file_data, 0, "ucs", "")
     
-    solution_file_data, search_file_data = GBFS.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
-    generate_solution_file(solution_file_data, 0, "GBFS", "-h1")
-    generate_search_file(search_file_data, 0, "GBFS", "-h1")
+    # solution_file_data, search_file_data = GBFS.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
+    # generate_solution_file(solution_file_data, 0, "GBFS", "-h1")
+    # generate_search_file(search_file_data, 0, "GBFS", "-h1")
     
-    solution_file_data, search_file_data = A_Star.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
-    generate_solution_file(solution_file_data, 0, "astar", "-h1")
-    generate_search_file(search_file_data, 0, "astar", "-h1")
+    # solution_file_data, search_file_data = A_Star.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
+    # generate_solution_file(solution_file_data, 0, "astar", "-h1")
+    # generate_search_file(search_file_data, 0, "astar", "-h1")
+    
+    number_of_puzzles = 50
+    generate_random_puzzles_file(number_of_puzzles, goal_state_1)
 
 if __name__ == "__main__":
     main()

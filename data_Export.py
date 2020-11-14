@@ -5,6 +5,8 @@ Date:          November 16, 2020
 Description:   Code used for the creation of solution files and search files.
 """
 
+from random import shuffle
+
 def flatten_list(non_flat_list):
     """Flattens a list of lists and integers into a 1D list."""
     flat_list = [i for i in non_flat_list if not isinstance(i, list)]
@@ -36,4 +38,12 @@ def generate_search_file(search_file_data, number, algorithm, heuristic):
                 flat_list = flatten_list(i)
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
+                
+def generate_random_puzzles_file(number_of_puzzles, list_of_tiles):
+    """Generates any number of random puzzles and exports them to a file."""
+    output_file = f"Input_Files/{number_of_puzzles}_random_puzzles.txt"
+    with open(output_file, 'w') as file_object:
+    	for i in range(number_of_puzzles):
+    		shuffle(list_of_tiles)
+    		file_object.write(' '.join([str(j) for j in list_of_tiles]) + '\n')
                 
