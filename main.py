@@ -18,11 +18,21 @@ def main():
     #     for line in file_object:
     #         print(line)
     
-    initial_state = [5, 2, 3, 0, 1, 6, 7, 4] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
-    goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]  # 2x2 => [1, 2, 3, 0]
-    goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]  # 2x2 => [1, 2, 3, 0]
+    # 2x4 puzzles
+    # initial_state = [5, 2, 3, 0, 1, 6, 7, 4] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
+    # goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]  # 2x2 => [1, 2, 3, 0]
+    # goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]  # 2x2 => [1, 2, 3, 0]
+    # row_length = 4
+    # column_length = 2
     
-    puzzle = Puzzle(initial_state, goal_state_1, goal_state_2, 4, 2)
+     # 3x3 puzzles
+    initial_state = [5, 2, 3, 0, 1, 6, 7, 4, 8] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
+    goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 8, 0]  # 2x2 => [1, 2, 3, 0]
+    goal_state_2 = [1, 2, 3, 4, 5, 6, 7, 8, 0]  # 2x2 => [1, 2, 3, 0]
+    row_length = 3
+    column_length = 3
+    
+    puzzle = Puzzle(initial_state, goal_state_1, goal_state_2, row_length, column_length)
     # puzzle = Puzzle([4,2,3,1,5,6,7,0,8], 3, 3)
     # puzzle = Puzzle([3, 1, 0, 2], 2, 2)
     # puzzle = Puzzle([0,8,3,7,6,1,5,2,4], 3, 3)
@@ -40,7 +50,7 @@ def main():
     # generate_search_file(search_file_data, 0, "astar", "-h1")
     
     number_of_puzzles = 50
-    generate_random_puzzles_file(number_of_puzzles, goal_state_1)
+    generate_random_puzzles_file(number_of_puzzles, goal_state_1, row_length, column_length)
 
 if __name__ == "__main__":
     main()
