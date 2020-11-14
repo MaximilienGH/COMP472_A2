@@ -18,7 +18,7 @@ def main():
     #     for line in file_object:
     #         print(line)
     
-    initial_state = [0, 7, 2, 5, 4, 6, 3, 1] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
+    initial_state = [5, 2, 3, 0, 1, 6, 7, 4] # complex => [0, 7, 2, 5, 4, 6, 3, 1]
     goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]  # 2x2 => [1, 2, 3, 0]
     goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]  # 2x2 => [1, 2, 3, 0]
     
@@ -27,17 +27,17 @@ def main():
     # puzzle = Puzzle([3, 1, 0, 2], 2, 2)
     # puzzle = Puzzle([0,8,3,7,6,1,5,2,4], 3, 3)
     
-    # solution_file_data, search_file_data = UCS.apply_algorithm(puzzle)
-    # generate_solution_file(solution_file_data, 0, "ucs", "")
-    # generate_search_file(search_file_data, 0, "ucs", "")
+    solution_file_data, search_file_data = UCS.apply_algorithm(puzzle)
+    generate_solution_file(solution_file_data, 0, "ucs", "")
+    generate_search_file(search_file_data, 0, "ucs", "")
     
     solution_file_data, search_file_data = GBFS.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
     generate_solution_file(solution_file_data, 0, "GBFS", "-h1")
     generate_search_file(search_file_data, 0, "GBFS", "-h1")
     
-    # solution_file_data, search_file_data = A_Star.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
-    # generate_solution_file(solution_file_data, 0, "astar", "-h1")
-    # generate_search_file(search_file_data, 0, "astar", "-h1")
+    solution_file_data, search_file_data = A_Star.apply_algorithm(puzzle, 1) # 2nd argument is heuristic number
+    generate_solution_file(solution_file_data, 0, "astar", "-h1")
+    generate_search_file(search_file_data, 0, "astar", "-h1")
 
 if __name__ == "__main__":
     main()
