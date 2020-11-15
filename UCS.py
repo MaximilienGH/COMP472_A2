@@ -10,9 +10,17 @@ import time
 
 """Global variables."""
 open_list = []
-closed_list = []  # new
+closed_list = []
 solution_file_data = []
 search_file_data = []
+
+# new
+def reset_goblal_variables():
+    global open_list, closed_list, solution_file_data, search_file_data  
+    open_list = []
+    closed_list = []
+    solution_file_data = []
+    search_file_data = []
 
 
 def update_solution_file_data(goal_node):
@@ -31,7 +39,7 @@ def update_search_file_data(current_node):
 
 def find_children_nodes(node):
     """Appends children nodes to open list then sorts it accordingly."""
-    global open_list, closed_list  # new
+    global open_list, closed_list
     open_list.append(deepcopy(node).move_left(deepcopy(node)))
     open_list.append(deepcopy(node).move_right(deepcopy(node)))
     open_list.append(deepcopy(node).move_down(deepcopy(node)))
@@ -61,27 +69,27 @@ def find_children_nodes(node):
             temp_configuration.append(open_list[i].get_configuration())
             temp_list.append(open_list[i])
     open_list = temp_list
-    # new
 
 
 def apply_algorithm(start_node):
     """Applies the UCS algorithm given a start node."""
-    global open_list, closed_list  # new
+    global open_list, closed_list
     start_time = time.time()
+    reset_goblal_variables()  # new
     open_list.append(start_node)
     total_cost = 0
-    elapsed_time = 0  # new
+    elapsed_time = 0
     while open_list:
         current_node = open_list.pop(0)
         configuration = current_node.get_configuration()
+        # new
         if configuration in closed_list:
             continue
-        closed_list.append(configuration)  # new
+        closed_list.append(configuration)
         update_search_file_data(current_node)
         if current_node.is_goal():
             total_cost = current_node.get_g()
             update_solution_file_data(current_node)
-            # new
             end_time = time.time()
             elapsed_time = end_time - start_time
             break
