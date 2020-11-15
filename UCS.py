@@ -64,8 +64,7 @@ def find_children_nodes(node):
     temp_list = []
     temp_configuration = []
     for i in range(len(open_list)):
-        if (open_list[i].get_configuration() not in temp_configuration) and (
-                open_list[i].get_configuration() not in closed_list):
+        if (open_list[i].get_configuration() not in temp_configuration): #  Necessary? and (open_list[i].get_configuration() not in closed_list)
             temp_configuration.append(open_list[i].get_configuration())
             temp_list.append(open_list[i])
     open_list = temp_list

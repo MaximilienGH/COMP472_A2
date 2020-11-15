@@ -10,7 +10,7 @@ import time
 from queue import PriorityQueue
 
 """Global variables."""
-open_list = PriorityQueue
+open_list = PriorityQueue()
 closed_list = []
 solution_file_data = []
 search_file_data = []
@@ -18,7 +18,7 @@ search_file_data = []
 # new
 def reset_goblal_variables():
     global open_list, closed_list, solution_file_data, search_file_data  
-    open_list = []
+    open_list = PriorityQueue()
     closed_list = []
     solution_file_data = []
     search_file_data = []
@@ -46,63 +46,63 @@ def find_children_nodes(node):
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_right(deepcopy(node)))
+    child_node = deepcopy(node).move_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_down(deepcopy(node)))
+    child_node = deepcopy(node).move_down(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_up(deepcopy(node)))
+    child_node = deepcopy(node).move_up(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_left(deepcopy(node)))
+    child_node = deepcopy(node).wrap_left(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_right(deepcopy(node)))
+    child_node = deepcopy(node).wrap_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_down(deepcopy(node)))
+    child_node = deepcopy(node).wrap_down(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_up(deepcopy(node)))
+    child_node = deepcopy(node).wrap_up(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_diag_down_left(deepcopy(node)))
+    child_node = deepcopy(node).move_diag_down_left(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_diag_down_right(deepcopy(node)))
+    child_node = deepcopy(node).move_diag_down_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_diag_up_left(deepcopy(node)))
+    child_node = deepcopy(node).move_diag_up_left(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).move_diag_up_right(deepcopy(node)))
+    child_node = deepcopy(node).move_diag_up_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_diag_down_left(deepcopy(node)))
+    child_node = deepcopy(node).wrap_diag_down_left(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_diag_down_right(deepcopy(node)))
+    child_node = deepcopy(node).wrap_diag_down_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_diag_up_left(deepcopy(node)))
+    child_node = deepcopy(node).wrap_diag_up_left(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = open_list.put(deepcopy(node).wrap_diag_up_right(deepcopy(node)))
+    child_node = deepcopy(node).wrap_diag_up_right(deepcopy(node))
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
 
@@ -110,26 +110,38 @@ def find_children_nodes(node):
     # open_list = list(filter(None, open_list))
     # open_list.sort(key=lambda x: x.get_g())
     # Remove duplicates nodes with equal or higher cost in open list
-    temp_list = []
+    
+    # temp_list = []
+    # temp_configuration = []
+    # for i in range(len(open_list)):
+    #     if (open_list[i].get_configuration() not in temp_configuration) and (
+    #             open_list[i].get_configuration() not in closed_list):
+    #         temp_configuration.append(open_list[i].get_configuration())
+    #         temp_list.append(open_list[i])
+    # open_list = temp_list
+    
+    temp_PQ = PriorityQueue()
     temp_configuration = []
-    for i in range(len(open_list)):
-        if (open_list[i].get_configuration() not in temp_configuration) and (
-                open_list[i].get_configuration() not in closed_list):
-            temp_configuration.append(open_list[i].get_configuration())
-            temp_list.append(open_list[i])
-    open_list = temp_list
+    while not open_list.empty():
+        PQ_head = open_list.get()
+        PQ_head_config = PQ_head[1].get_configuration()
+        if (PQ_head_config not in temp_configuration): # Necessary?  and (PQ_head_config not in closed_list)
+            temp_configuration.append(PQ_head_config)
+            temp_PQ.put(PQ_head)
+    open_list = temp_PQ
+        
 
 
 def apply_algorithm(start_node):
     """Applies the UCS algorithm given a start node."""
     global open_list, closed_list
     start_time = time.time()
-    reset_goblal_variables()  # new
-    open_list.put(start_node)
+    reset_goblal_variables()
+    open_list.put((start_node.get_g(), start_node))  # new
     total_cost = 0
     elapsed_time = 0
-    while open_list:
-        current_node = open_list.pop(0)
+    while not open_list.empty():  # new
+        current_node = open_list.get()[1]  # new
         configuration = current_node.get_configuration()
         # new
         if configuration in closed_list:
@@ -145,9 +157,9 @@ def apply_algorithm(start_node):
         find_children_nodes(current_node)
         end_time = time.time()
         elapsed_time = end_time - start_time
-        if elapsed_time > 60:
-            return [], []
+        # if elapsed_time > 60:
+        #     return [], []
     solution_file_data.append((current_node.get_swapped_token(),
-                               current_node.get_swap_cost(), current_node.get_configuration()))
+                                current_node.get_swap_cost(), current_node.get_configuration()))
     solution_file_data.append((total_cost, elapsed_time))
     return solution_file_data, search_file_data

@@ -38,50 +38,50 @@ def main():
         generate_solution_file(solution_file_data, puzzles.index(i), "ucs", "")
         generate_search_file(search_file_data, puzzles.index(i), "ucs", "")
     
-    # Apply GBFS algorithm (heuristic 1) on puzzles
-    heuristic = 1
-    for i in puzzles:
-        solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    # # Apply GBFS algorithm (heuristic 1) on puzzles
+    # heuristic = 1
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
         
-    # Apply GBFS algorithm (heuristic 2) on puzzles
-    heuristic = 2
-    for i in puzzles:
-        solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    # # Apply GBFS algorithm (heuristic 2) on puzzles
+    # heuristic = 2
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
         
-    # Apply A* algorithm (heuristic 1) on puzzles
-    heuristic = 1
-    for i in puzzles:
-        solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    # # Apply A* algorithm (heuristic 1) on puzzles
+    # heuristic = 1
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
         
-    # Apply A* algorithm (heuristic 2) on puzzles
-    heuristic = 2
-    for i in puzzles:
-        solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    # # Apply A* algorithm (heuristic 2) on puzzles
+    # heuristic = 2
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
         
     #--------------------------------------------------------------------------------------------------
-    # The following is to be used for the DEMO
+    # # The following is to be used for the DEMO
     
-    # Apply GBFS algorithm (heuristic 0) on puzzles
-    heuristic = 0
-    for i in puzzles:
-        solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    # # Apply GBFS algorithm (heuristic 0) on puzzles
+    # heuristic = 0
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
         
-    # Apply A* algorithm (heuristic 0) on puzzles
-    heuristic = 0
-    for i in puzzles:
-        solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
-        generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-        generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    # # Apply A* algorithm (heuristic 0) on puzzles
+    # heuristic = 0
+    # for i in puzzles:
+    #     solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
+    #     generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+    #     generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
     #--------------------------------------------------------------------------------------------------
     
 if __name__ == "__main__":

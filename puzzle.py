@@ -23,6 +23,10 @@ class Puzzle():
         self.f = 0
         self.swapped_token = 0
         self.swap_cost = 0
+    
+    # Needed for UCS_WITH_PQ.py
+    # def __lt__(self, other):
+    #     return self.g < other.g
 
     def get_g(self):
         """Returns the cost from root to current node."""
@@ -316,7 +320,6 @@ class Puzzle():
                     temp_2 += 1
         self.h = min(temp_1, temp_2)
 
-    # Dont think it always gives expected result but could be wrong!
     def apply_heuristic_2(self):
         """Applies a heuristic based on Manhattan distance to sum up 
         all the distances by which tiles are out of place."""
@@ -330,13 +333,4 @@ class Puzzle():
                      + abs(a // self.column_length - b // self.column_length)
                      for a, b in ((self.current_state.index(i), self.goal_state_2.index(i))
                                   for i in range(1, len(self.current_state))))
-        # print("h2 => g1=>", temp_1)
-        # print("h2 => g2=>", temp_2)
         self.h = min(temp_1, temp_2)
-
-# -----------------------------------------------
-# puz = Puzzle([2, 0, 3, 4, 1, 5, 6, 7], 4, 2)     
-# print(puz.current_state)
-# # print(puz.h)
-# # puz.apply_heuristic_2()
-# # print(puz.h)
