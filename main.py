@@ -21,19 +21,18 @@ def main():
     row_length = 4
     column_length = 2
     
-    test_config = [1, 2, 3, 4, 5, 6, 0, 7] # complex => [0, 7, 2, 5, 4, 6, 3, 1] MORE complex => [0, 3, 7, 5, 2, 6, 4, 1]
+    test_config = [1, 2, 3, 4, 5, 6, 0, 7]
     #-----------------------------
     
     # Generate random puzzle configurations
     input_data = generate_random_puzzles_file(number_of_puzzles, test_config, row_length, column_length)
-    print(input_data)
+    input_data = [[1,0,3,7,5,2,6,4]] # complex => [0, 7, 2, 5, 4, 6, 3, 1] MORE complex => [0, 3, 7, 5, 2, 6, 4, 1]
     
     # Create a list of puzzle objects
     puzzles = [Puzzle(i, goal_state_1, goal_state_2, row_length, column_length) for i in input_data]
         
     # Apply UCS algorithm on puzzles
     for i in puzzles:
-        print(i.get_configuration())
         solution_file_data, search_file_data = UCS.apply_algorithm(i)
         print(solution_file_data)
         generate_solution_file(solution_file_data, puzzles.index(i), "ucs", "")
