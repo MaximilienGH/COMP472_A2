@@ -13,15 +13,17 @@ open_list = []
 closed_list = []
 solution_file_data = []
 search_file_data = []
+closed_list_cost = []
 
 
 # new
 def reset_goblal_variables():
-    global open_list, closed_list, solution_file_data, search_file_data  
+    global open_list, closed_list, solution_file_data, search_file_data,closed_list_cost
     open_list = []
     closed_list = []
     solution_file_data = []
     search_file_data = []
+    closed_list_cost = []
 
 
 def update_solution_file_data(goal_node):
@@ -58,7 +60,7 @@ def choose_heuristic(heuristic_number):
 
 def find_children_nodes(node, heuristic_number):
     """Appends children nodes to open list then sorts it accordingly."""
-    global open_list, closed_list
+    global open_list, closed_list, closed_list_cost
     open_list.append(deepcopy(node).move_left(deepcopy(node)))
     open_list.append(deepcopy(node).move_right(deepcopy(node)))
     open_list.append(deepcopy(node).move_down(deepcopy(node)))
@@ -88,12 +90,19 @@ def find_children_nodes(node, heuristic_number):
                 open_list[i].get_configuration() not in closed_list):
             temp_configuration.append(open_list[i].get_configuration())
             temp_list.append(open_list[i])
+        elif open_list[i].get_configuration() in closed_list:
+            index = closed_list.index(open_list[i].get_configuration())
+            if open_list[i].get_g() < closed_list_cost[index]:
+                temp_configuration.append(open_list[i].get_configuration())
+                temp_list.append(open_list[i])
+                closed_list_cost.pop(index)
+                closed_list.pop(index)
     open_list = temp_list
 
 
 def apply_algorithm(start_node, heuristic_number):
     """Applies the A* algorithm given a start node."""
-    global open_list, closed_list
+    global open_list, closed_list, closed_list_cost
     start_time = time.time()
     reset_goblal_variables()  # new
     if heuristic_number == 1:
@@ -113,8 +122,15 @@ def apply_algorithm(start_node, heuristic_number):
         configuration = current_node.get_configuration()
         # new
         if configuration in closed_list:
-            continue
+            index = closed_list.index(configuration)
+            if current_node.get_g() >= closed_list_cost[index]:
+                continue
+            else:
+                closed_list_cost.pop(index)
+                closed_list.pop(index)
+
         closed_list.append(configuration)
+        closed_list_cost.append(current_node.get_g())
         update_search_file_data(current_node)
         if current_node.is_goal():
             total_cost = current_node.get_g()
