@@ -40,14 +40,21 @@ def generate_search_file(search_file_data, number, algorithm, heuristic):
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
                 
-def generate_random_puzzles_file(number_of_puzzles, list_of_tiles, row_length, column_length):
+def generate_random_puzzles_file(number_of_puzzles, list_of_tiles):
     """Generates any number of random puzzles and exports them to a file."""
-    input_data = []
-    output_file = f"Input_Files/{number_of_puzzles}_random_{column_length}x{row_length}_puzzles.txt"
+    output_file = "Input_Files/input_file.txt"
     with open(output_file, 'w') as file_object:
        	for i in range(number_of_puzzles):
        	    shuffle(list_of_tiles)
        	    file_object.write(' '.join([str(j) for j in list_of_tiles]) + '\n')
-            input_data.append(deepcopy(list_of_tiles))
+
+def read_input_puzzles():
+    """Read puzzle configurations from input file."""
+    input_data = []
+    input_file = "Input_Files/input_file.txt"
+    with open(input_file, 'r') as file_object:
+       	for line in file_object:
+            items = line.split()
+            input_data.append([int(item) for item in items])
     return input_data
                 
