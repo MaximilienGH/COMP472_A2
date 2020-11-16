@@ -91,6 +91,10 @@ def find_children_nodes(node, heuristic_number):
             temp_configuration.append(open_list[i].get_configuration())
             temp_list.append(open_list[i])
         elif open_list[i].get_configuration() in closed_list:
+            '''
+                If it is found in closed list with a lower cost, as it is in the if statement
+                we need to place it in the openlist and do a back track.
+            '''
             index = closed_list.index(open_list[i].get_configuration())
             if open_list[i].get_g() < closed_list_cost[index]:
                 temp_configuration.append(open_list[i].get_configuration())
@@ -121,13 +125,13 @@ def apply_algorithm(start_node, heuristic_number):
         current_node = open_list.pop(0)
         configuration = current_node.get_configuration()
         # new
-        if configuration in closed_list:
-            index = closed_list.index(configuration)
-            if current_node.get_g() >= closed_list_cost[index]:
-                continue
-            else:
-                closed_list_cost.pop(index)
-                closed_list.pop(index)
+        #if configuration in closed_list:
+        #    index = closed_list.index(configuration)
+        #    if current_node.get_g() >= closed_list_cost[index]:
+        #        continue
+        #    else:
+        #        closed_list_cost.pop(index)
+        #        closed_list.pop(index)
 
         closed_list.append(configuration)
         closed_list_cost.append(current_node.get_g())
