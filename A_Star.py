@@ -126,8 +126,9 @@ def apply_algorithm(start_node, heuristic_number):
         end_time = time.time()
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
-            return [], []
+            return -1, -1, [], []
     solution_file_data.append((current_node.get_swapped_token(),
-                               current_node.get_swap_cost(), current_node.get_configuration()))
+                               current_node.get_swap_cost(),
+                               current_node.get_configuration()))
     solution_file_data.append((total_cost, elapsed_time))
-    return solution_file_data, search_file_data
+    return elapsed_time, total_cost, solution_file_data, search_file_data

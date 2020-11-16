@@ -36,41 +36,82 @@ def main():
     # Create a list of puzzle objects
     puzzles = [Puzzle(i, goal_state_1, goal_state_2, row_length, column_length) for i in input_data]
         
+    UCS_analysis = analysing(number_of_puzzles)
     # Apply UCS algorithm on puzzles
     for i in puzzles:
-        solution_file_data, search_file_data = UCS.apply_algorithm(i)
-        print(solution_file_data)
-        generate_solution_file(solution_file_data, puzzles.index(i), "ucs", "")
-        generate_search_file(search_file_data, puzzles.index(i), "ucs", "")
+        time, cost, solution_file_data, search_file_data = UCS.apply_algorithm(i)
+        solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "ucs", "")
+        search_length = generate_search_file(search_file_data, puzzles.index(i), "ucs", "")
+        if (time != -1) and (cost != -1):
+            UCS_analysis.add_search_length(search_length)
+            UCS_analysis.add_time(time)
+            UCS_analysis.add_cost(cost)
+            UCS_analysis.add_solution_length(solution_length)
+        else:
+            UCS_analysis.add_no_solution()
     
-    # # Apply GBFS algorithm (heuristic 1) on puzzles
-    # heuristic = 1
-    # for i in puzzles:
-    #     solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
-    #     generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-    #     generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-        
-    # # Apply GBFS algorithm (heuristic 2) on puzzles
-    # heuristic = 2
-    # for i in puzzles:
-    #     solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
-    #     generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-    #     generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
-        
-    # # Apply A* algorithm (heuristic 1) on puzzles
-    # heuristic = 1
-    # for i in puzzles:
-    #     solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
-    #     generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-    #     generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-        
-    # # Apply A* algorithm (heuristic 2) on puzzles
-    # heuristic = 2
-    # for i in puzzles:
-    #     solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
-    #     generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-    #     generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
-        
+
+    # Apply GBFS algorithm (heuristic 1) on puzzles
+    heuristic = 1
+    GBPS_h1_analysis = analysing(number_of_puzzles)
+    for i in puzzles:
+        time, cost, solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
+        solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+        search_length = generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+        if (time != -1) and (cost != -1):
+            GBPS_h1_analysis.add_search_length(search_length)
+            GBPS_h1_analysis.add_time(time)
+            GBPS_h1_analysis.add_cost(cost)
+            GBPS_h1_analysis.add_solution_length(solution_length)
+        else:
+            GBPS_h1_analysis.add_no_solution()
+
+    # Apply GBFS algorithm (heuristic 2) on puzzles
+    heuristic = 2
+    GBPS_h2_analysis = analysing(number_of_puzzles)
+    for i in puzzles:
+        time, cost, solution_file_data, search_file_data = GBFS.apply_algorithm(i, heuristic)
+        solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+        search_length = generate_search_file(search_file_data, puzzles.index(i), "GBFS", f"-h{heuristic}")
+        if (time != -1) and (cost != -1):
+            GBPS_h2_analysis.add_search_length(search_length)
+            GBPS_h2_analysis.add_time(time)
+            GBPS_h2_analysis.add_cost(cost)
+            GBPS_h2_analysis.add_solution_length(solution_length)
+        else:
+            GBPS_h2_analysis.add_no_solution()
+
+    # Apply A* algorithm (heuristic 1) on puzzles
+    heuristic = 1
+    AStar_h1_analysis = analysing(number_of_puzzles)
+    for i in puzzles:
+        time, cost, solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
+        solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+        search_length = generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+        if (time != -1) and (cost != -1):
+            AStar_h1_analysis.add_search_length(search_length)
+            AStar_h1_analysis.add_time(time)
+            AStar_h1_analysis.add_cost(cost)
+            AStar_h1_analysis.add_solution_length(solution_length)
+        else:
+            AStar_h1_analysis.add_no_solution()
+
+    # Apply A* algorithm (heuristic 2) on puzzles
+    heuristic = 2
+    AStar_h2_analysis = analysing(number_of_puzzles)
+    for i in puzzles:
+        time, cost, solution_file_data, search_file_data = A_Star.apply_algorithm(i, heuristic)
+        solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+        search_length = generate_search_file(search_file_data, puzzles.index(i), "astar", f"-h{heuristic}")
+        if (time != -1) and (cost != -1):
+            AStar_h2_analysis.add_search_length(search_length)
+            AStar_h2_analysis.add_time(time)
+            AStar_h2_analysis.add_cost(cost)
+            AStar_h2_analysis.add_solution_length(solution_length)
+        else:
+            AStar_h2_analysis.add_no_solution()
+
+
     #--------------------------------------------------------------------------------------------------
     # # The following is to be used for the DEMO
     

@@ -19,26 +19,33 @@ def flatten_list(non_flat_list):
 def generate_solution_file(solution_file_data, number, algorithm, heuristic):
     """Generates a file containing the solution found by the algorithm."""
     output_file = f"Output_Files/{number}_{algorithm}{heuristic}_solution.txt"
+    length = 0
     with open(output_file, 'w') as file_object:
         if not solution_file_data:
             file_object.write("no solution")
         else:
             for i in solution_file_data:
+                length += 1
                 flat_list = flatten_list(i)
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
+    return (length - 1)
         
 def generate_search_file(search_file_data, number, algorithm, heuristic):
     """Generates a file containing the search path used by the algorithm."""
     output_file = f"Output_Files/{number}_{algorithm}{heuristic}_search.txt"
+    length = 0
     with open(output_file, 'w') as file_object:
         if not search_file_data:
             file_object.write("no solution")
         else:
             for i in search_file_data:
+                length += 1
                 flat_list = flatten_list(i)
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
+    return length
+
                 
 def generate_random_puzzles_file(number_of_puzzles, list_of_tiles):
     """Generates any number of random puzzles and exports them to a file."""
