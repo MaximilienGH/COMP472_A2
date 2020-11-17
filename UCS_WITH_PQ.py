@@ -8,16 +8,19 @@ Description:   Code used for the application of the UCS algorithm.
 from copy import deepcopy
 import time
 from queue import PriorityQueue
+from puzzle import Puzzle
+from data_Export import *
 
 """Global variables."""
 open_list = PriorityQueue()
+
 closed_list = []
 solution_file_data = []
 search_file_data = []
 
 # new
 def reset_goblal_variables():
-    global open_list, closed_list, solution_file_data, search_file_data  
+    global open_list, closed_list, solution_file_data, search_file_data
     open_list = PriorityQueue()
     closed_list = []
     solution_file_data = []
@@ -28,8 +31,7 @@ def update_solution_file_data(goal_node):
     """Fills solution_file_data list with data related to the ancestors of the goal node."""
     global solution_file_data
     for i in goal_node.get_ancestors():
-        solution_file_data.append((i.get_swapped_token(), i.get_swap_cost(),
-                                   i.get_configuration()))
+        solution_file_data.append(i)
 
 
 def update_search_file_data(current_node):
@@ -41,68 +43,84 @@ def update_search_file_data(current_node):
 def find_children_nodes(node):
     """Appends children nodes to open list then sorts it accordingly."""
     global open_list, closed_list
-    
-    child_node = deepcopy(node).move_left(deepcopy(node))
+
+    child_node = deepcopy(node).move_left()
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_right(deepcopy(node))
+    child_node = deepcopy(node).move_right()
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_down(deepcopy(node))
+    child_node = deepcopy(node).move_down()
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_up(deepcopy(node))
+    child_node = deepcopy(node).move_up()
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).wrap_left(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).wrap_left(deepcopy(node))
+    child_node = deepcopy(node).wrap_right(configuration)
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).wrap_horizontal()
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).wrap_down(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).wrap_right(deepcopy(node))
+    child_node = deepcopy(node).wrap_up(configuration)
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).wrap_vertical()
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).move_diag_down_left(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).wrap_down(deepcopy(node))
+    child_node = deepcopy(node).move_diag_down_right(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).wrap_up(deepcopy(node))
+    child_node = deepcopy(node).move_diag_up_left(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_diag_down_left(deepcopy(node))
+    child_node = deepcopy(node).move_diag_up_right(configuration)
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).move_diag()
+    if child_node is not None:
+        open_list.put((child_node.get_g(), child_node))
+    '''
+    child_node = deepcopy(node).wrap_diag_down_left(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_diag_down_right(deepcopy(node))
+    child_node = deepcopy(node).wrap_diag_down_right(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_diag_up_left(deepcopy(node))
+    child_node = deepcopy(node).wrap_diag_up_left(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
     
-    child_node = deepcopy(node).move_diag_up_right(deepcopy(node))
+    child_node = deepcopy(node).wrap_diag_up_right(configuration)
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
-    
-    child_node = deepcopy(node).wrap_diag_down_left(deepcopy(node))
-    if child_node is not None:
-        open_list.put((child_node.get_g(), child_node))
-    
-    child_node = deepcopy(node).wrap_diag_down_right(deepcopy(node))
-    if child_node is not None:
-        open_list.put((child_node.get_g(), child_node))
-    
-    child_node = deepcopy(node).wrap_diag_up_left(deepcopy(node))
-    if child_node is not None:
-        open_list.put((child_node.get_g(), child_node))
-    
-    child_node = deepcopy(node).wrap_diag_up_right(deepcopy(node))
+    '''
+    child_node = deepcopy(node).wrap_diag()
     if child_node is not None:
         open_list.put((child_node.get_g(), child_node))
 
@@ -125,10 +143,11 @@ def find_children_nodes(node):
     while not open_list.empty():
         PQ_head = open_list.get()
         PQ_head_config = PQ_head[1].get_configuration()
-        if (PQ_head_config not in temp_configuration): # Necessary?  and (PQ_head_config not in closed_list)
+        if (PQ_head_config not in temp_configuration) and (PQ_head_config not in closed_list): # Necessary?  and (PQ_head_config not in closed_list)
             temp_configuration.append(PQ_head_config)
             temp_PQ.put(PQ_head)
     open_list = temp_PQ
+
         
 
 
@@ -137,7 +156,7 @@ def apply_algorithm(start_node):
     global open_list, closed_list
     start_time = time.time()
     reset_goblal_variables()
-    open_list.put((start_node.get_g(), start_node))  # new
+    open_list.put((start_node.get_g(), start_node))# new
     total_cost = 0
     elapsed_time = 0
     while not open_list.empty():  # new
@@ -146,20 +165,38 @@ def apply_algorithm(start_node):
         # new
         if configuration in closed_list:
             continue
+        print(len(closed_list))
         closed_list.append(configuration)
         update_search_file_data(current_node)
         if current_node.is_goal():
+            print(configuration)
             total_cost = current_node.get_g()
             update_solution_file_data(current_node)
             end_time = time.time()
             elapsed_time = end_time - start_time
             break
+
         find_children_nodes(current_node)
         end_time = time.time()
         elapsed_time = end_time - start_time
+        #print('duration time:', elapsed_time)
         # if elapsed_time > 60:
         #     return [], []
     solution_file_data.append((current_node.get_swapped_token(),
                                 current_node.get_swap_cost(), current_node.get_configuration()))
     solution_file_data.append((total_cost, elapsed_time))
     return solution_file_data, search_file_data
+
+'''
+input_data = [[1, 0, 3, 6, 5, 2, 7, 4]]
+goal_state_1 = [1, 2, 3, 4, 5, 6, 7, 0]
+goal_state_2 = [1, 3, 5, 7, 2, 4, 6, 0]
+row_length = 4
+column_length = 2
+puzzles = [Puzzle(i, goal_state_1, goal_state_2, row_length, column_length) for i in input_data]
+for i in puzzles:
+    solution_file_data, search_file_data = apply_algorithm(i)
+    solution_length = generate_solution_file(solution_file_data, puzzles.index(i), "ucsPQ", "")
+    search_length = generate_search_file(search_file_data, puzzles.index(i), "ucsPQ", "")
+
+'''

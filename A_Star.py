@@ -29,10 +29,11 @@ def reset_goblal_variables():
 def update_solution_file_data(goal_node):
     """Fills solution_file_data list with data related to the ancestors of the goal node."""
     global solution_file_data
-    for i in goal_node.get_ancestors():
-        solution_file_data.append((i.get_swapped_token(), i.get_swap_cost(),
-                                   i.get_configuration()))
-
+    path = goal_node.get_ancestors()
+    solution_file_data.append((0, 0, path[0][2]))
+    for i in range(0, len(path) - 1):
+        solution_file_data.append((path[i][0], path[i][1], path[i - 1][2]))
+    solution_file_data.append((path[len(path) - 1][0], path[len(path) - 1][1], goal_node.get_configuration()))
 
 def update_search_file_data(current_node):
     """Fills search_file_data list with data related to the current node."""
@@ -61,22 +62,15 @@ def choose_heuristic(heuristic_number):
 def find_children_nodes(node, heuristic_number):
     """Appends children nodes to open list then sorts it accordingly."""
     global open_list, closed_list, closed_list_cost
-    open_list.append(deepcopy(node).move_left(deepcopy(node)))
-    open_list.append(deepcopy(node).move_right(deepcopy(node)))
-    open_list.append(deepcopy(node).move_down(deepcopy(node)))
-    open_list.append(deepcopy(node).move_up(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_left(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_right(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_down(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_up(deepcopy(node)))
-    open_list.append(deepcopy(node).move_diag_down_left(deepcopy(node)))
-    open_list.append(deepcopy(node).move_diag_down_right(deepcopy(node)))
-    open_list.append(deepcopy(node).move_diag_up_left(deepcopy(node)))
-    open_list.append(deepcopy(node).move_diag_up_right(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_diag_down_left(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_diag_down_right(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_diag_up_left(deepcopy(node)))
-    open_list.append(deepcopy(node).wrap_diag_up_right(deepcopy(node)))
+    configuration = node.get_configuration()
+    open_list.append(deepcopy(node).move_left(configuration))
+    open_list.append(deepcopy(node).move_right(configuration))
+    open_list.append(deepcopy(node).move_down(configuration))
+    open_list.append(deepcopy(node).move_up(configuration))
+    open_list.append(deepcopy(node).wrap_horizontal(configuration))
+    open_list.append(deepcopy(node).wrap_vertical(configuration))
+    open_list.append(deepcopy(node).move_diag(configuration))
+    open_list.append(deepcopy(node).wrap_diag(configuration))
 
     # Remove None objects and then sort open list with lowest f first
     open_list = list(filter(None, open_list))
@@ -93,9 +87,10 @@ def find_children_nodes(node, heuristic_number):
         elif open_list[i].get_configuration() in closed_list:
             '''
                 If it is found in closed list with a lower cost, as it is in the if statement
-                we need to place it in the openlist and do a back track.
+                we need to place it in the open_list and do a back track.
             '''
             index = closed_list.index(open_list[i].get_configuration())
+
             if open_list[i].get_g() < closed_list_cost[index]:
                 temp_configuration.append(open_list[i].get_configuration())
                 temp_list.append(open_list[i])
@@ -125,13 +120,13 @@ def apply_algorithm(start_node, heuristic_number):
         current_node = open_list.pop(0)
         configuration = current_node.get_configuration()
         # new
-        #if configuration in closed_list:
-        #    index = closed_list.index(configuration)
-        #    if current_node.get_g() >= closed_list_cost[index]:
-        #        continue
-        #    else:
-        #        closed_list_cost.pop(index)
-        #        closed_list.pop(index)
+        if configuration in closed_list:
+            index = closed_list.index(configuration)
+            if current_node.get_g() >= closed_list_cost[index]:
+                continue
+            else:
+                closed_list_cost.pop(index)
+                closed_list.pop(index)
 
         closed_list.append(configuration)
         closed_list_cost.append(current_node.get_g())
@@ -147,8 +142,5 @@ def apply_algorithm(start_node, heuristic_number):
         elapsed_time = end_time - start_time
         if elapsed_time > 60:
             return -1, -1, [], []
-    solution_file_data.append((current_node.get_swapped_token(),
-                               current_node.get_swap_cost(),
-                               current_node.get_configuration()))
     solution_file_data.append((total_cost, elapsed_time))
     return elapsed_time, total_cost, solution_file_data, search_file_data
