@@ -8,13 +8,15 @@ Description:   Code used for the creation of solution files and search files.
 from copy import deepcopy
 from random import shuffle
 
+
 def flatten_list(non_flat_list):
     """Flattens a list of lists and integers into a 1D list."""
     flat_list = [i for i in non_flat_list if not isinstance(i, list)]
     if isinstance(non_flat_list[-1], list):
         for j in non_flat_list[-1]:
             flat_list.append(j)
-    return flat_list 
+    return flat_list
+
 
 def generate_solution_file(solution_file_data, number, algorithm, heuristic):
     """Generates a file containing the solution found by the algorithm."""
@@ -29,8 +31,9 @@ def generate_solution_file(solution_file_data, number, algorithm, heuristic):
                 flat_list = flatten_list(i)
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
-    return (length - 1)
-        
+    return length - 1
+
+
 def generate_search_file(search_file_data, number, algorithm, heuristic):
     """Generates a file containing the search path used by the algorithm."""
     output_file = f"Output_Files/{number}_{algorithm}{heuristic}_search.txt"
@@ -46,22 +49,22 @@ def generate_search_file(search_file_data, number, algorithm, heuristic):
                 file_object.write('\n')
     return length
 
-                
+
 def generate_random_puzzles_file(number_of_puzzles, list_of_tiles):
     """Generates any number of random puzzles and exports them to a file."""
     output_file = "Input_Files/input_file.txt"
     with open(output_file, 'w') as file_object:
-       	for i in range(number_of_puzzles):
-       	    shuffle(list_of_tiles)
-       	    file_object.write(' '.join([str(j) for j in list_of_tiles]) + '\n')
+        for i in range(number_of_puzzles):
+            shuffle(list_of_tiles)
+            file_object.write(' '.join([str(j) for j in list_of_tiles]) + '\n')
+
 
 def read_input_puzzles():
     """Read puzzle configurations from input file."""
     input_data = []
     input_file = "Input_Files/input_file.txt"
     with open(input_file, 'r') as file_object:
-       	for line in file_object:
+        for line in file_object:
             items = line.split()
             input_data.append([int(item) for item in items])
     return input_data
-                

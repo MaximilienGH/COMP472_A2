@@ -18,7 +18,7 @@ closed_list_cost = []
 
 # new
 def reset_goblal_variables():
-    global open_list, closed_list, solution_file_data, search_file_data,closed_list_cost
+    global open_list, closed_list, solution_file_data, search_file_data, closed_list_cost
     open_list = []
     closed_list = []
     solution_file_data = []
@@ -30,10 +30,12 @@ def update_solution_file_data(goal_node):
     """Fills solution_file_data list with data related to the ancestors of the goal node."""
     global solution_file_data
     path = goal_node.get_ancestors()
-    solution_file_data.append((0, 0, path[0][2]))
+    solution_file_data.append((0, 0, goal_node.get_initial()))
     for i in range(0, len(path) - 1):
-        solution_file_data.append((path[i][0], path[i][1], path[i - 1][2]))
-    solution_file_data.append((path[len(path) - 1][0], path[len(path) - 1][1], goal_node.get_configuration()))
+        solution_file_data.append((path[i][0], path[i][1], path[i + 1][2]))
+    if len(path) != 0:
+        solution_file_data.append((path[len(path) - 1][0], path[len(path) - 1][1], goal_node.get_configuration()))
+
 
 def update_search_file_data(current_node):
     """Fills search_file_data list with data related to the current node."""

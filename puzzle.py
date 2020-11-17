@@ -5,7 +5,8 @@ Date:          November 16, 2020
 Description:   Code used for the creation of a Puzzle class.
 """
 import math
-import copy
+from copy import deepcopy
+
 
 class Puzzle():
     """A class to represent a puzzle node."""
@@ -14,6 +15,7 @@ class Puzzle():
         """A constructor to initialize the attributes of a Puzzle object."""
         self.initial_state = initial_state
         self.current_state = self.initial_state
+        self.initial = deepcopy(initial_state)
         self.goal_state_1 = goal_state_1
         self.goal_state_2 = goal_state_2
         self.ancestor_states = []
@@ -24,13 +26,16 @@ class Puzzle():
         self.f = 0
         self.swapped_token = 0
         self.swap_cost = 0
-    
+
     # Needed for UCS_WITH_PQ.py
     # def __lt__(self, other):
     #     return self.g < other.g
     def get_g(self):
         """Returns the cost from root to current node."""
         return self.g
+
+    def get_initial(self):
+        return self.initial
 
     def get_h(self):
         """Returns the estimated lowest cost from node to goal node."""
@@ -160,7 +165,7 @@ class Puzzle():
         else:
             return None
 
-    def wrap_vertical(self,parent_node):
+    def wrap_vertical(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         if empty_tile_index in [len(self.current_state) - self.row_length, len(self.current_state) - 1]:
             distance = self.row_length * (self.column_length - 1)
@@ -181,7 +186,7 @@ class Puzzle():
         else:
             return None
 
-    def move_diag(self,parent_node):
+    def move_diag(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         if empty_tile_index == self.row_length - 1:
             distance = self.row_length - 1
@@ -218,7 +223,7 @@ class Puzzle():
         else:
             return None
 
-    def wrap_diag(self,parent_node):
+    def wrap_diag(self, parent_node):
         empty_tile_index = self.locate_empty_tile()
         if empty_tile_index == len(self.current_state) - self.row_length:
             distance = self.row_length * (self.column_length - 2) + 1
@@ -255,7 +260,6 @@ class Puzzle():
         else:
             return
 
-
     def apply_heuristic_0(self):
         """Applies a naive heuristic."""
         if self.current_state[-1] == 0:
@@ -264,22 +268,24 @@ class Puzzle():
             self.h = 1
 
     def apply_heuristic_1(self):
-        """Applies a heuristic based on Hamming distance to count number of 
-        tiles out of place."""
+        """mutant of Manhattan distance"""
         temp_1 = 0
         temp_2 = 0
-        for i in range(len(self.current_state)):
-            if self.current_state[i] == 0:
-                continue
-            else:
-                if self.current_state[i] != self.goal_state_1[i]:
-                    temp_1 += 1
-                if self.current_state[i] != self.goal_state_2[i]:
-                    temp_2 += 1
+        for i in range(1, len(self.current_state)):
+            a = self.current_state.index(i)
+            b = self.goal_state_1.index(i)
+            distance = abs(a % self.row_length - b % self.row_length) + abs(
+                a // self.column_length - b // self.column_length)
+            temp_1 += min(distance, 2)
+
+            b = self.goal_state_2.index(i)
+            distance = abs(a % self.row_length - b % self.row_length) + abs(
+                a // self.column_length - b // self.column_length)
+            temp_2 += min(distance, 2)
         self.h = min(temp_1, temp_2)
 
-
-    '''
+    def apply_heuristic_2(self):
+        """count the tiles that are out of the row or column"""
         temp_1 = 0
         temp_2 = 0
         for i in self.current_state:
@@ -297,72 +303,4 @@ class Puzzle():
                     temp_2 += 1
                 if index // self.column_length - index_goal2 // self.column_length != 0:
                     temp_2 += 1
-
         self.h = min(temp_1, temp_2)
-    '''
-
-    def apply_heuristic_2(self):
-        """Applies a heuristic based on Manhattan distance to sum up 
-        all the distances by which tiles are out of place."""
-
-        temp_1 = 0
-        temp_2 = 0
-        temp_1 = sum(abs(a % self.row_length - b % self.row_length)
-                     + abs(a // self.column_length - b // self.column_length)
-                     for a, b in ((self.current_state.index(i), self.goal_state_1.index(i))
-                                  for i in range(1, len(self.current_state))))
-        temp_2 = sum(abs(a % self.row_length - b % self.row_length)
-                     + abs(a // self.column_length - b // self.column_length)
-                     for a, b in ((self.current_state.index(i), self.goal_state_2.index(i))
-                                  for i in range(1, len(self.current_state))))
-        self.h = min(temp_1, temp_2)
-
-        '''
-        #Euclidean Distance
-        temp_1 = 0
-        temp_2 = 0
-        temp_1 = (sum(math.sqrt((a % self.row_length - b % self.row_length)*(a % self.row_length - b % self.row_length)
-                    + (a // self.column_length - b // self.column_length) * (a // self.column_length - b // self.column_length))
-                        for a, b in ((self.current_state.index(i), self.goal_state_1.index(i))
-                            for i in range(1, len(self.current_state))))
-                + sum(abs(a % self.row_length - b % self.row_length)
-                     + abs(a // self.column_length - b // self.column_length)
-                     for a, b in ((self.current_state.index(i), self.goal_state_1.index(i))
-                                  for i in range(1, len(self.current_state))))) / 2
-        temp_2 = (sum(math.sqrt((a % self.row_length - b % self.row_length)*(a % self.row_length - b % self.row_length)
-                    + (a // self.column_length - b // self.column_length) * (a // self.column_length - b // self.column_length))
-                        for a, b in ((self.current_state.index(i), self.goal_state_2.index(i))
-                            for i in range(1, len(self.current_state))))
-                  + sum(abs(a % self.row_length - b % self.row_length)
-                     + abs(a // self.column_length - b // self.column_length)
-                     for a, b in ((self.current_state.index(i), self.goal_state_2.index(i))
-                                  for i in range(1, len(self.current_state))))) / 2
-        self.h = min(temp_1, temp_2)
-        '''
-        '''
-        temp_1 = 0
-        temp_2 = 0
-        state1 = copy.deepcopy(self.current_state)
-        state2 = copy.deepcopy(self.current_state)
-
-        for i in range(len(self.current_state)):
-            index = state1.index(i)
-            index_1 = self.goal_state_1.index(i)
-            if index != index_1:
-                temp = state1[index_1]
-                state1[index_1] = i
-                state1[index] = temp
-                temp_1 += 1
-
-            index = state2.index(i)
-            index_2 = self.goal_state_2.index(i)
-
-            if index != index_2:
-                temp = state2[index_2]
-                state2[index_2] = i
-                state2[index] = temp
-                temp_2 += 1
-
-        self.h = min(temp_1, temp_2)
-        '''
-
