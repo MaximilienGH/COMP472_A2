@@ -35,5 +35,5 @@ https://github.com/MaximilienGH/COMP472_A2
 * time
 
 ## Important notes
-It was never mentioned whether the analysis results (part 2.4) had be directly exported to output file or not.
+It was never mentioned whether the analysis results (part 2.4) had be directly exported onto output files or not.
 Hence, we decided not to and rather print these on the IDE's console for simplicity. We will of course show and analyse these during the presentation. 
