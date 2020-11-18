@@ -24,7 +24,7 @@ https://github.com/MaximilienGH/COMP472_A2
 * Worked on heuristics
 
 ## Instructions on how to run the program
-1. Open the Anaconda IDE
+1. Open any IDE of your choice
 2. Navigate to the location of the **main.py** file
 3. Open the **main.py** file
 4. Run it
