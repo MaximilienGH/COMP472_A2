@@ -1,5 +1,12 @@
+"""
+File name:     analysing.py
+Authors:       Maximilien Fathi, Zihan Zhou
+Date:          November 16, 2020
+Description:   Code used to analyse performance of algorithms.
+"""
+
 class analysing():
-    """A class to represent a puzzle node."""
+    """A class to analyse performance of algorithms."""
 
     def __init__(self, total_number):
         self.total_number = total_number
