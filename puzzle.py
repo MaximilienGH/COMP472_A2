@@ -265,7 +265,7 @@ class Puzzle():
             self.h = 1
 
     def apply_heuristic_1(self):
-        """mutant of Manhattan distance"""
+        """Custom heuristic that modifies Manhattan distance (which is not admissible) to make it admissible"""
         temp_1 = 0
         temp_2 = 0
         for i in range(1, len(self.current_state)):
@@ -282,7 +282,7 @@ class Puzzle():
         self.h = min(temp_1, temp_2)
 
     def apply_heuristic_2(self):
-        """count the tiles that are out of the row or column"""
+        """Custom heuristic that counts the tiles that are out of the row or column"""
         temp_1 = 0
         temp_2 = 0
         for i in self.current_state:
