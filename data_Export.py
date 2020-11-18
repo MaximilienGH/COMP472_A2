@@ -7,6 +7,7 @@ Description:   Code used for the creation of solution files and search files.
 
 from copy import deepcopy
 from random import shuffle
+from analysing import analysing
 
 
 def flatten_list(non_flat_list):
@@ -48,6 +49,44 @@ def generate_search_file(search_file_data, number, algorithm, heuristic):
                 file_object.write(" ".join(list(map(str, flat_list))))
                 file_object.write('\n')
     return length
+
+
+def generate_analysis_file(analysing, algorithm, heuristic):
+    output_file = f"Output_Files/{algorithm}{heuristic}_analysis.txt"
+    with open(output_file, 'w') as file_object:
+        total_number = analysing.get_total()
+        no_solution = analysing.get_no_solution()
+        solution_length = analysing.get_solution_length()
+        search_length = analysing.get_search_length()
+        time = analysing.get_time()
+        cost = analysing.get_cost()
+        file_object.write("total number of no solution: ")
+        file_object.write(str(no_solution))
+        file_object.write('\n')
+        file_object.write("total solution length: ")
+        file_object.write(str(solution_length))
+        file_object.write('\n')
+        file_object.write("average solution length: ")
+        file_object.write(str(solution_length/(total_number - no_solution)))
+        file_object.write('\n')
+        file_object.write("total search length: ")
+        file_object.write(str(search_length))
+        file_object.write('\n')
+        file_object.write("average search length: ")
+        file_object.write(str(search_length / (total_number - no_solution)))
+        file_object.write('\n')
+        file_object.write("total execution time: ")
+        file_object.write(str(time))
+        file_object.write('\n')
+        file_object.write("average execution time: ")
+        file_object.write(str(time / (total_number - no_solution)))
+        file_object.write('\n')
+        file_object.write("total cost: ")
+        file_object.write(str(cost))
+        file_object.write('\n')
+        file_object.write("average cost: ")
+        file_object.write(str(cost / (total_number - no_solution)))
+        file_object.write('\n')
 
 
 def generate_random_puzzles_file(number_of_puzzles, list_of_tiles):

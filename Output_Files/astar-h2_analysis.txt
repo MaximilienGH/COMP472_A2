@@ -1,0 +1,9 @@
+total number of no solution: 0
+total solution length: 581
+average solution length: 11.62
+total search length: 10409
+average search length: 208.18
+total execution time: 75.18532085418701
+average execution time: 1.5037064170837402
+total cost: 696
+average cost: 13.92

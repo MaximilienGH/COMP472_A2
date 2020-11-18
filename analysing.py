@@ -27,6 +27,9 @@ class analysing():
     def get_cost(self):
         return self.cost
 
+    def get_total(self):
+        return self.total_number
+
     def get_time(self):
         return self.exection_time
 
