@@ -33,6 +33,7 @@ https://github.com/MaximilienGH/COMP472_A2
 * copy
 * random
 * time
+* numpy
 
 ## Important notes
 It was never mentioned whether the analysis results (part 2.4) had be directly exported onto output files or not.
