@@ -27,9 +27,6 @@ class Puzzle():
         self.swapped_token = 0
         self.swap_cost = 0
 
-    # Needed for UCS_WITH_PQ.py
-    # def __lt__(self, other):
-    #     return self.g < other.g
     def get_g(self):
         """Returns the cost from root to current node."""
         return self.g
